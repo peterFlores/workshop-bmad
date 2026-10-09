@@ -10,3 +10,9 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-2-2-error-state-with-retry-announcements-and-run-documentation.md`
   summary: Run the README "Verifying in a browser" checklist: error state color and message, stable card height across loading/quote/error, retry flow, and the 1280px/390px layouts.
   evidence: jsdom with css:false cannot observe layout, color or motion (maybe-false, medium).
+- source_spec: `_bmad-output/implementation-artifacts/spec-3-1-quote-history-that-survives-restarts.md`
+  summary: Update the 7 failing `frontend/src/pages/quote-page.test.tsx` tests and add tests for history routes, the sqlite store, `parseQuote`, and `useHistory`.
+  evidence: Tests were skipped on purpose for this run; the History card and its `/api/history` fetches break the old stubs, call counts, and the no-heading assertion.
+- source_spec: `_bmad-output/implementation-artifacts/spec-3-1-quote-history-that-survives-restarts.md`
+  summary: Decide a history size cap or pagination (unverified, medium if real).
+  evidence: `GET /api/history` returns every row and the UI renders all of them; the PRD lists "no size cap" as an assumption to confirm.

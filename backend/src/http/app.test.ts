@@ -8,7 +8,7 @@ const quote = { id: 1, quote: "That'S Title Case", author: 'Someone' };
 let close: (() => void) | undefined;
 
 async function start(source: QuoteSource) {
-  const server = createApp(source).listen(0);
+  const server = createApp(source, { addHistory: () => { throw new Error("unused"); }, listHistory: () => [], listFavorites: () => [], addFavorite: () => {}, removeFavoriteAndHistory: () => {} }).listen(0);
   await new Promise((r) => server.once('listening', r));
   close = () => server.close();
   return `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
