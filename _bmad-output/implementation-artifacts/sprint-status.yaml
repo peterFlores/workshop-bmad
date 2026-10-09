@@ -29,7 +29,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 # - Retrospective appends its action items to action_items; the status view surfaces open ones
 generated: 10-08-2026 21:50
-last_updated: 10-08-2026 22:56
+last_updated: 10-09-2026 11:47
 project: workshop-bmad
 project_key: NOKEY
 tracking_system: file-system
@@ -44,3 +44,8 @@ development_status:
   2-1-new-quote-button-with-loading-state-and-fade: review
   2-2-error-state-with-retry-announcements-and-run-documentation: review
   epic-2-retrospective: optional
+
+  epic-3: in-progress
+  3-1-quote-history-that-survives-restarts: ready-for-dev
+  3-2-heart-a-quote-to-save-it-as-a-favorite: ready-for-dev
+  epic-3-retrospective: optional
