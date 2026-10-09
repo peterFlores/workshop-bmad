@@ -1,0 +1,6 @@
+{
+  "name": "workshop-bmad",
+  "private": true,
+  "workspaces": ["backend", "frontend"],
+  "engines": { "node": ">=24" }
+}
