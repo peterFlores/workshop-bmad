@@ -2,8 +2,15 @@ import { Card, Skeleton } from '@heroui/react';
 import { useEffect, useState } from 'react';
 import type { Quote } from '../domain/quote.ts';
 import type { QuoteStatus } from '../hooks/use-quote.ts';
+import { HeartButton } from './heart-button.tsx';
 
-type Props = { quote: Quote | null; status: QuoteStatus };
+type Props = {
+  quote: Quote | null;
+  status: QuoteStatus;
+  isFavorite?: (quoteId: number) => boolean;
+  isPending?: (quoteId: number) => boolean;
+  onToggle?: (quote: Quote) => void;
+};
 
 const FADE_OUT_MS = 150;
 
@@ -11,7 +18,7 @@ function prefersReducedMotion(): boolean {
   return typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
-export function QuoteCard({ quote, status }: Props) {
+export function QuoteCard({ quote, status, isFavorite, isPending, onToggle }: Props) {
   const [displayed, setDisplayed] = useState<Quote | null>(quote);
   const [phase, setPhase] = useState<'idle' | 'out'>('idle');
 
@@ -34,8 +41,17 @@ export function QuoteCard({ quote, status }: Props) {
   }, [quote, displayed]);
 
   return (
-    <Card className="w-full rounded-[20px] border border-border bg-surface p-[var(--card-padding)] shadow-none">
-      <div data-testid="card-content" className="flex min-h-[164px] flex-col gap-6">
+    <Card className="relative w-full rounded-[20px] border border-border bg-surface p-[var(--card-padding)] shadow-none">
+      {onToggle && status !== 'error' && (
+        <div className="absolute right-2 top-2">
+          <HeartButton
+            isFavorite={displayed !== null && !!isFavorite?.(displayed.id)}
+            isDisabled={status === 'loading' || displayed === null || !!isPending?.(displayed.id)}
+            onToggle={() => displayed && onToggle(displayed)}
+          />
+        </div>
+      )}
+      <div data-testid="card-content" className="flex min-h-[164px] flex-col gap-6 pr-10">
         {status === 'error' && (
           <p role="alert" className="text-danger">
             Couldn't load a quote. Please try again.
