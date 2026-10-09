@@ -16,3 +16,6 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-3-1-quote-history-that-survives-restarts.md`
   summary: Decide a history size cap or pagination (unverified, medium if real).
   evidence: `GET /api/history` returns every row and the UI renders all of them; the PRD lists "no size cap" as an assumption to confirm.
+- source_spec: `_bmad-output/implementation-artifacts/spec-3-2-heart-a-quote-to-save-it-as-a-favorite.md`
+  summary: Add tests for the favorites routes, the sqlite favorites/cascade, `useFavorites`, `HeartButton`, and focus handoff, and fix the quote-page stubs for the extra /api/favorites fetch and heart buttons.
+  evidence: Tests were skipped on purpose; the verification-gap reviewer ran the frontend suite and saw 7 failures plus `history.map is not a function`.

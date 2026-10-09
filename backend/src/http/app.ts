@@ -4,6 +4,7 @@ import type { QuoteSource } from '../domain/quote-source.ts';
 import type { QuoteStore } from '../domain/quote-store.ts';
 import { UpstreamError } from '../domain/upstream-error.ts';
 import { ValidationError } from '../domain/validation-error.ts';
+import { addFavorite, listFavorites, removeFavorite } from '../service/favorites.ts';
 import { getRandomQuote } from '../service/get-random-quote.ts';
 import { listHistory } from '../service/list-history.ts';
 import { recordHistory } from '../service/record-history.ts';
@@ -37,6 +38,17 @@ export function createApp(source: QuoteSource, store: QuoteStore) {
   });
   app.get('/api/history', async (_req, res) => {
     res.json(await listHistory(store));
+  });
+  app.get('/api/favorites', async (_req, res) => {
+    res.json(await listFavorites(store));
+  });
+  app.put('/api/favorites/:id', async (req, res) => {
+    await addFavorite(store, req.params.id, req.body);
+    res.status(204).end();
+  });
+  app.delete('/api/favorites/:id', async (req, res) => {
+    await removeFavorite(store, req.params.id);
+    res.status(204).end();
   });
   app.use((_req, res) => {
     res.status(404).json({ error: 'Not found' });

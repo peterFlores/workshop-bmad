@@ -29,6 +29,12 @@ The quote history is stored in a single SQLite file at `DATA_FILE`, so it surviv
 
 To reset the demo, stop the backend and delete the file at `DATA_FILE`; it is recreated empty on the next start. If the file is corrupt or locked, the backend exits with an error and does not modify or delete it.
 
+## Favorites API
+
+- `GET /api/favorites` returns `Quote[]`, newest favorite first.
+- `PUT /api/favorites/:id` takes a `Quote` body whose `id` must equal the path id (else 400). A repeat PUT keeps the first snapshot. Returns 204.
+- `DELETE /api/favorites/:id` returns 204. For a favorite it removes the favorite and every history row of that quote; otherwise nothing changes.
+
 ## Tests
 
 ```sh
