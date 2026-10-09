@@ -1,0 +1,58 @@
+@import "@heroui/styles";
+
+.dark,
+[data-theme="dark"] {
+  --background: #0E1116;
+  --surface: #161B22;
+  --border: #262D38;
+  --foreground: #E6EAF0;
+  --muted: #9AA4B2;
+  --accent: #8FB3AE;
+  --accent-foreground: #0E1116;
+  --danger: #E58B8B;
+
+  --quote-font: Georgia, "Times New Roman", serif;
+  --quote-size: 22px;
+  --card-padding: 24px;
+}
+
+@media (min-width: 640px) {
+  .dark,
+  [data-theme="dark"] {
+    --quote-size: 28px;
+    --card-padding: 40px;
+  }
+}
+
+.quote-text {
+  font-family: var(--quote-font);
+  font-size: var(--quote-size);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.005em;
+}
+
+.quote-author {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.quote-fade {
+  opacity: 1;
+  transition: opacity 250ms ease-in;
+}
+
+.quote-fade[data-phase="out"] {
+  opacity: 0;
+  transition: opacity 150ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quote-fade,
+  .quote-fade[data-phase="out"] {
+    transition: none;
+  }
+}

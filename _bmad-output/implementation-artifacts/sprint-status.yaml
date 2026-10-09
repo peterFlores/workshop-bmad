@@ -29,18 +29,18 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 # - Retrospective appends its action items to action_items; the status view surfaces open ones
 generated: 10-08-2026 21:50
-last_updated: 10-08-2026 21:50
+last_updated: 10-08-2026 22:56
 project: workshop-bmad
 project_key: NOKEY
 tracking_system: file-system
 story_location: _bmad-output/implementation-artifacts
 development_status:
-  epic-1: backlog
-  1-1-backend-get-api-quote: backlog
-  1-2-frontend-scaffold-and-first-quote: backlog
+  epic-1: in-progress
+  1-1-backend-get-api-quote: review
+  1-2-frontend-scaffold-and-first-quote: review
   epic-1-retrospective: optional
 
-  epic-2: backlog
-  2-1-new-quote-button-with-loading-state-and-fade: backlog
-  2-2-error-state-with-retry-announcements-and-run-documentation: backlog
+  epic-2: in-progress
+  2-1-new-quote-button-with-loading-state-and-fade: review
+  2-2-error-state-with-retry-announcements-and-run-documentation: review
   epic-2-retrospective: optional
