@@ -39,3 +39,20 @@
   letter-spacing: 0.04em;
   color: var(--muted);
 }
+
+.quote-fade {
+  opacity: 1;
+  transition: opacity 250ms ease-in;
+}
+
+.quote-fade[data-phase="out"] {
+  opacity: 0;
+  transition: opacity 150ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quote-fade,
+  .quote-fade[data-phase="out"] {
+    transition: none;
+  }
+}
