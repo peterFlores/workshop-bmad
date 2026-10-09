@@ -15,9 +15,9 @@ Goal: a backend with one endpoint plus a React page (HeroUI) that shows a random
 | 3 | Define the architecture | `bmad-architecture` | `_bmad-output/planning-artifacts/architecture/architecture-workshop-bmad-2026-10-08/ARCHITECTURE-SPINE.md` | Done |
 | 4 | Break the work into epics and stories | `bmad-create-epics-and-stories` | `_bmad-output/planning-artifacts/epics.md` | Done |
 | 5 | Plan the sprint | `bmad-sprint-planning` | `_bmad-output/implementation-artifacts/sprint-status.yaml` | Done |
-| 6 | Build the stories | `bmad-build` | Working backend and frontend | Next |
-| 7 | Review and verify | `bmad-code-review` | Triaged findings | Pending |
-| 8 | Smoke test | manual | Run backend and frontend, click "New quote" | Pending |
+| 6 | Build the stories | `bmad-build` | Working backend and frontend | Done (4 stories, 5 chained PRs) |
+| 7 | Review and verify | `bmad-code-review` | Triaged findings | Done (3 lenses per story) |
+| 8 | Smoke test | manual | Run backend and frontend, click "New quote" | Next (README checklist) |
 
 Tip: commit after each step so you can reset to a clean baseline before the workshop.
 

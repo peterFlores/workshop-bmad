@@ -44,4 +44,20 @@ describe('NewQuoteButton', () => {
     expect(onPress).not.toHaveBeenCalled();
     expect(button).toHaveFocus();
   });
+
+  it('shows an enabled native "Try again" button in the error state and presses work', () => {
+    const onPress = vi.fn();
+    render(<NewQuoteButton isLoading={false} isError onPress={onPress} />);
+    const button = screen.getByRole('button', { name: 'Try again' });
+    expect(button.tagName).toBe('BUTTON');
+    expect(button).not.toBeDisabled();
+    expect(button).not.toHaveAttribute('aria-disabled', 'true');
+    fireEvent.click(button);
+    expect(onPress).toHaveBeenCalledTimes(1);
+  });
+
+  it('shows "Loading..." while retrying even if the error flag is still set', () => {
+    render(<NewQuoteButton isLoading isError onPress={() => {}} />);
+    expect(screen.getByRole('button', { name: /Loading\.\.\./ })).toHaveAttribute('aria-disabled', 'true');
+  });
 });

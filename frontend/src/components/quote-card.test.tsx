@@ -132,4 +132,56 @@ describe('QuoteCard', () => {
     expect(screen.getByTestId('quote-fade')).toHaveAttribute('data-phase', 'idle');
     expect(screen.getByText(third.quote)).toBeInTheDocument();
   });
+
+  describe('error state', () => {
+    const MESSAGE = "Couldn't load a quote. Please try again.";
+
+    it('shows the exact message in one role="alert", with no skeleton and no quote', () => {
+      const { container } = render(<QuoteCard quote={null} status="error" />);
+      const alerts = screen.getAllByRole('alert');
+      expect(alerts).toHaveLength(1);
+      expect(alerts[0]).toHaveTextContent(MESSAGE);
+      expect(alerts[0].textContent).toBe(MESSAGE);
+      expect(alerts[0].textContent).not.toMatch(/!/);
+      expect(container.querySelector('.skeleton')).toBeNull();
+      expect(container.querySelector('[data-testid="quote-fade"]')).toBeNull();
+    });
+
+    it('uses the danger color token and sits outside the polite live region', () => {
+      render(<QuoteCard quote={null} status="error" />);
+      const alert = screen.getByRole('alert');
+      expect(alert.className).toMatch(/text-danger/);
+      expect(screen.getByTestId('quote-region')).not.toContainElement(alert);
+      expect(alert.closest('[aria-live="polite"]')).toBeNull();
+    });
+
+    it('replaces a previous quote immediately, with no fade phase', () => {
+      vi.useFakeTimers();
+      const { rerender } = render(<QuoteCard quote={quote} status="ready" />);
+      rerender(<QuoteCard quote={null} status="error" />);
+      expect(screen.getByRole('alert')).toHaveTextContent(MESSAGE);
+      expect(screen.queryByText(quote.quote)).toBeNull();
+      expect(screen.queryByTestId('quote-fade')).toBeNull();
+    });
+
+    it('does not render the error text from the response, only the fixed message', () => {
+      render(<QuoteCard quote={null} status="error" />);
+      expect(screen.getByRole('alert').textContent).toBe(MESSAGE);
+    });
+
+    it('removes the alert and shows the skeleton while loading with no quote', () => {
+      const { container, rerender } = render(<QuoteCard quote={null} status="error" />);
+      rerender(<QuoteCard quote={null} status="loading" />);
+      expect(screen.queryByRole('alert')).toBeNull();
+      expect(container.querySelector('.skeleton')).not.toBeNull();
+    });
+  });
+
+  it('keeps a shared 164px minimum content height in loading, ready and error', () => {
+    for (const [q, status] of [[null, 'loading'], [quote, 'ready'], [null, 'error']] as const) {
+      const { unmount } = render(<QuoteCard quote={q} status={status} />);
+      expect(screen.getByTestId('card-content').className).toMatch(/min-h-\[164px\]/);
+      unmount();
+    }
+  });
 });

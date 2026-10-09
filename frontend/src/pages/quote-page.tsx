@@ -8,7 +8,7 @@ export function QuotePage() {
     <main className="flex min-h-screen items-center justify-center bg-background px-4 py-6 text-foreground sm:px-6">
       <div className="flex w-full max-w-[640px] flex-col gap-6">
         <QuoteCard quote={quote} status={status} />
-        <NewQuoteButton isLoading={status === 'loading'} onPress={refetch} />
+        <NewQuoteButton isLoading={status === 'loading'} isError={status === 'error'} onPress={refetch} />
       </div>
     </main>
   );

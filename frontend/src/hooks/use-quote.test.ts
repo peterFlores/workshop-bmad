@@ -49,6 +49,35 @@ describe('useQuote', () => {
     await waitFor(() => expect(result.current.status).toBe('error'));
   });
 
+  it.each([
+    ['502 with JSON error', () => json({ error: 'upstream' }, 502)],
+    ['500', () => new Response('boom', { status: 500 })],
+    ['200 non-JSON body', () => new Response('<html>', { status: 200 })],
+  ])('maps %s to one error status and clears the quote', async (_n, make) => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(make()));
+    const { result } = renderHook(() => useQuote());
+    await waitFor(() => expect(result.current.status).toBe('error'));
+    expect(result.current.quote).toBeNull();
+  });
+
+  it('clears the quote when a refetch fails, and recovers on a later success', async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(json(body))
+      .mockRejectedValueOnce(new TypeError('network'))
+      .mockResolvedValueOnce(json(body));
+    vi.stubGlobal('fetch', fetchMock);
+    const { result } = renderHook(() => useQuote());
+    await waitFor(() => expect(result.current.status).toBe('ready'));
+    act(() => result.current.refetch());
+    await waitFor(() => expect(result.current.status).toBe('error'));
+    expect(result.current.quote).toBeNull();
+    act(() => result.current.refetch());
+    await waitFor(() => expect(result.current.status).toBe('ready'));
+    expect(result.current.quote).toEqual(body);
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+  });
+
   it('refetch re-requests', async () => {
     const next = { id: 2, quote: 'Other', author: 'Someone' };
     const fetchMock = vi.fn().mockResolvedValueOnce(json(body)).mockResolvedValueOnce(json(next));
